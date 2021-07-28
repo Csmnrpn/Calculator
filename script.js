@@ -14,6 +14,10 @@ const allClear = document.querySelector('.allClear');
 const display = document.querySelector('.display');
 const addition = document.querySelector('.addition');
 const substraction = document.querySelector('.substraction');
+const multiplication = document.querySelector('.multiplication');
+const division = document.querySelector('.division');
+const percent = document.querySelector('.percent');
+const equals = document.querySelector('.equals');
 const result = document.querySelector('.result');
 
 //----------------------------------------------------------------------
@@ -22,6 +26,7 @@ const result = document.querySelector('.result');
 let currentOperation = '';
 let displayNumber = '';
 let resultNumber = 0;
+let ifEquals = 0;
 const displayArrayToOperate = [];
 
 //----------------------------------------------------------------------
@@ -57,6 +62,12 @@ function divide(first, second) {
     return first / second;
 }
 
+/*
+function doPercent(first) {
+    return first / 100;
+}
+*/
+
 function operate(operator, first, second) {
     if (operator === '+'){
         return add(first, second);
@@ -83,6 +94,15 @@ function checkIfOperate (operator){
         displayArrayToOperate.push(resultNumber);
         result.textContent = resultNumber;
     }
+}
+
+function checkForDoubleOperator () {
+    if (display.textContent === '' || 
+        display.textContent.charAt(display.textContent.length - 1) === ' ')
+        {
+        return true;
+    }
+    else return false; 
 }
 
 //----------------------------------------------------------------------
@@ -142,23 +162,85 @@ zero.addEventListener('click', function(){
     displayNumber += '0';
 })
 
-addition.addEventListener('click', function(){    
-    display.textContent += ' + ';    
-    displayArrayToOperate.push(parseInt(displayNumber));    
-    displayNumber = '';
-    checkIfOperate(currentOperation);
-    currentOperation = '+';
-    
+addition.addEventListener('click', function(){     
+    if (checkForDoubleOperator()) {
+        console.log('sorry boss');
+
+    } 
+    else {   
+        if(ifEquals === 1) {
+            currentOperation = '+';
+            ifEquals = 0;
+        }
+        else displayArrayToOperate.push(parseInt(displayNumber));
+        display.textContent += ' + ';            
+        displayNumber = '';
+        checkIfOperate(currentOperation);
+        currentOperation = '+';
+    }
 })
 
-substraction.addEventListener('click', function(){    
-    display.textContent += ' - ';    
-    displayArrayToOperate.push(parseInt(displayNumber));    
-    displayNumber = '';
-    checkIfOperate(currentOperation);
-    currentOperation = '-';
-    
+substraction.addEventListener('click', function(){   
+    if (checkForDoubleOperator()) {
+        console.log('sorry boss');
+
+    } 
+    else {
+        display.textContent += ' - ';
+        if(ifEquals === 1) {
+            currentOperation = '-';
+            ifEquals = 0;
+        }    
+        else displayArrayToOperate.push(parseInt(displayNumber));    
+        displayNumber = '';
+        checkIfOperate(currentOperation);
+        currentOperation = '-';
+    }
 })
 
+multiplication.addEventListener('click', function(){    
+    if (checkForDoubleOperator()) {
+        console.log('sorry boss');
 
+    } 
+    else {
+        display.textContent += ' x '; 
+        if(ifEquals === 1) {
+            currentOperation = '*';
+            ifEquals = 0;
+        }   
+        else displayArrayToOperate.push(parseInt(displayNumber));    
+        displayNumber = '';
+        checkIfOperate(currentOperation);
+        currentOperation = '*';
+    }
+})
 
+division.addEventListener('click', function(){ 
+    if (checkForDoubleOperator()) {
+        console.log('sorry boss');
+
+    } 
+    else {
+        display.textContent += ' / ';    
+        if(ifEquals === 1) {
+            currentOperation = '/';
+            ifEquals = 0;
+        }
+        else displayArrayToOperate.push(parseInt(displayNumber));    
+        displayNumber = '';
+        checkIfOperate(currentOperation);
+        currentOperation = '/';
+    }
+})
+
+equals.addEventListener('click', function() {
+        ifEquals = 1;
+        display.textContent = '';
+        displayArrayToOperate.push(parseInt(displayNumber));
+        displayNumber = '';
+        checkIfOperate(currentOperation);
+        currentOperation = '';
+        display.textContent = result.textContent;
+    
+})
