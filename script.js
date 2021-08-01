@@ -23,29 +23,16 @@ const result = document.querySelector('.result');
 //----------------------------------------------------------------------
 // Variables
 
-let currentOperation = '';
 let displayNumber = '';
-let resultNumber = 0;
-let ifEquals = 0;
-const displayArrayToOperate = [];
-
-//----------------------------------------------------------------------
-// Calculator Button Functions
-
-function toDisplay(number) {
-    display.textContent += number;
-}
-
-function clearDisplay() {
-    display.textContent = '';
-    result.textContent = '';
-    displayNumber = '';
-    resultNumber = 0;
-    displayArrayToOperate.splice(0, displayArrayToOperate.length);
-}
+let numberOne = null;
+let numberTwo = null;
+let currentOperation = '';
+let operateTrue = false;
+let doubleOperand = false;
 
 //----------------------------------------------------------------------
 // Calculator Logic
+
 function add(first, second) {
     return first + second;
 };
@@ -61,12 +48,6 @@ function multiply(first, second) {
 function divide(first, second) {
     return first / second;
 }
-
-/*
-function doPercent(first) {
-    return first / 100;
-}
-*/
 
 function operate(operator, first, second) {
     if (operator === '+'){
@@ -84,163 +65,206 @@ function operate(operator, first, second) {
     else return 'Operator is not recognized';
 }
 
+//----------------------------------------------------------------------
+// Helper Functions
 
-function checkIfOperate (operator){
-    // Checks array length, if two numbers inputed it Operates on them
-    if (displayArrayToOperate.length === 2) {
-        resultNumber = operate(operator, displayArrayToOperate[0], displayArrayToOperate[1]);
-        // Populate the array with the result of operation
-        displayArrayToOperate.splice(0, 2);
-        displayArrayToOperate.push(resultNumber);
-        result.textContent = resultNumber;
+function test() {
+    console.log(`Display Number: ${displayNumber} \n
+    Number one: ${numberOne} \n
+    Number Two: ${numberTwo} \n
+    Current Operation: ${currentOperation} \n
+    Operate if True: ${operateTrue}`);
+}
+
+function toDisplay(number) {
+    display.textContent = number;
+}
+
+function transformNumber() {
+    if (numberOne === null) {
+        numberOne = parseInt(displayNumber);
+        displayNumber = '';
+        display.textContent = '';
+    }
+    else {
+        numberTwo = parseInt(displayNumber);
+        displayNumber = '';
+        display.textContent = '';
     }
 }
 
-function checkForDoubleOperator () {
-    if (display.textContent === '' || 
-        display.textContent.charAt(display.textContent.length - 1) === ' ')
-        {
-        return true;
+function checkForOperation () {
+    if (numberOne !== null && numberTwo !== null && currentOperation !== ''){
+        return operateTrue = true;
     }
-    else return false; 
 }
-
 //----------------------------------------------------------------------
 // Events and onClick functions
 
-allClear.addEventListener('click', function(){
-    clearDisplay();
-})
-
 one.addEventListener('click', function(){
-    toDisplay('1');
     displayNumber += '1';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 two.addEventListener('click', function(){
-    toDisplay('2');
     displayNumber += '2';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 three.addEventListener('click', function(){
-    toDisplay('3');
     displayNumber += '3';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 four.addEventListener('click', function(){
-    toDisplay('4');
     displayNumber += '4';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 five.addEventListener('click', function(){
-    toDisplay('5');
     displayNumber += '5';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 six.addEventListener('click', function(){
-    toDisplay('6');
     displayNumber += '6';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 seven.addEventListener('click', function(){
-    toDisplay('7');
     displayNumber += '7';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 eight.addEventListener('click', function(){
-    toDisplay('8');
     displayNumber += '8';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 nine.addEventListener('click', function(){
-    toDisplay('9');
     displayNumber += '9';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
 zero.addEventListener('click', function(){
-    toDisplay('0');
     displayNumber += '0';
+    toDisplay(displayNumber);
+    doubleOperand = false;
 })
 
-addition.addEventListener('click', function(){     
-    if (checkForDoubleOperator()) {
-        console.log('sorry boss');
-
-    } 
-    else {   
-        if(ifEquals === 1) {
-            currentOperation = '+';
-            ifEquals = 0;
-        }
-        else displayArrayToOperate.push(parseInt(displayNumber));
-        display.textContent += ' + ';            
-        displayNumber = '';
-        checkIfOperate(currentOperation);
-        currentOperation = '+';
+addition.addEventListener('click', function(){         
+    if (doubleOperand === true) {
+        return console.log('Must Input Number');
     }
+    else {
+        test();
+        transformNumber();
+        checkForOperation ();
+        if (operateTrue === true) {
+            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberTwo = null;
+            display.textContent = `${numberOne}`;
+            operateTrue = false;
+        }
+        currentOperation = '+';
+        
+        console.log('After: \n');
+        test();
+        doubleOperand = true;
+ }
 })
+    
 
 substraction.addEventListener('click', function(){   
-    if (checkForDoubleOperator()) {
-        console.log('sorry boss');
-
-    } 
-    else {
-        display.textContent += ' - ';
-        if(ifEquals === 1) {
-            currentOperation = '-';
-            ifEquals = 0;
-        }    
-        else displayArrayToOperate.push(parseInt(displayNumber));    
-        displayNumber = '';
-        checkIfOperate(currentOperation);
-        currentOperation = '-';
+    if (doubleOperand === true) {
+        return console.log('Must Input Number');
     }
+    else {
+        test();
+        transformNumber();
+        checkForOperation ();
+        if (operateTrue === true) {
+            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberTwo = null;
+            display.textContent = `${numberOne}`;
+            operateTrue = false;
+        }
+        currentOperation = '-';
+        
+        console.log('After: \n');
+        test();
+        doubleOperand = true;
+ }
 })
 
 multiplication.addEventListener('click', function(){    
-    if (checkForDoubleOperator()) {
-        console.log('sorry boss');
-
-    } 
-    else {
-        display.textContent += ' x '; 
-        if(ifEquals === 1) {
-            currentOperation = '*';
-            ifEquals = 0;
-        }   
-        else displayArrayToOperate.push(parseInt(displayNumber));    
-        displayNumber = '';
-        checkIfOperate(currentOperation);
-        currentOperation = '*';
+    if (doubleOperand === true) {
+        return console.log('Must Input Number');
     }
+    else {
+        test();
+        transformNumber();
+        checkForOperation ();
+        if (operateTrue === true) {
+            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberTwo = null;
+            display.textContent = `${numberOne}`;
+            operateTrue = false;
+        }
+        currentOperation = '*';
+        
+        console.log('After: \n');
+        test();
+        doubleOperand = true;
+ }
 })
 
 division.addEventListener('click', function(){ 
-    if (checkForDoubleOperator()) {
-        console.log('sorry boss');
-
-    } 
-    else {
-        display.textContent += ' / ';    
-        if(ifEquals === 1) {
-            currentOperation = '/';
-            ifEquals = 0;
-        }
-        else displayArrayToOperate.push(parseInt(displayNumber));    
-        displayNumber = '';
-        checkIfOperate(currentOperation);
-        currentOperation = '/';
+    if (doubleOperand === true) {
+        return console.log('Must Input Number');
     }
+    else {
+        test();
+        transformNumber();
+        checkForOperation ();
+        if (operateTrue === true) {
+            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberTwo = null;
+            display.textContent = `${numberOne}`;
+            operateTrue = false;
+        }
+        currentOperation = '/';
+        
+        console.log('After: \n');
+        test();
+        doubleOperand = true;
+ }
 })
 
 equals.addEventListener('click', function() {
-        ifEquals = 1;
-        display.textContent = '';
-        displayArrayToOperate.push(parseInt(displayNumber));
-        displayNumber = '';
-        checkIfOperate(currentOperation);
+    if (doubleOperand === true) {
+        return console.log('Must Input Number');
+    }
+    else {
+        test();
+        transformNumber();
+        checkForOperation ();
+        if (operateTrue === true) {
+            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberTwo = null;
+            display.textContent = `${numberOne}`;
+            operateTrue = false;
+        }
         currentOperation = '';
-        display.textContent = result.textContent;
-    
+        doubleOperand = true;
+    }
 })
