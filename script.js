@@ -28,7 +28,8 @@ let numberOne = null;
 let numberTwo = null;
 let currentOperation = '';
 let operateTrue = false;
-let doubleOperand = false;
+let doubleOperand = true;
+let equalIsTrue = false;
 
 //----------------------------------------------------------------------
 // Calculator Logic
@@ -83,11 +84,13 @@ function toDisplay(number) {
 function transformNumber() {
     if (numberOne === null) {
         numberOne = parseInt(displayNumber);
+        result.textContent += displayNumber;
         displayNumber = '';
         display.textContent = '';
-    }
+        }
     else {
         numberTwo = parseInt(displayNumber);
+        result.textContent += displayNumber;
         displayNumber = '';
         display.textContent = '';
     }
@@ -98,67 +101,130 @@ function checkForOperation () {
         return operateTrue = true;
     }
 }
+
+function clearEverything () {
+    displayNumber = '';
+    numberOne = null;
+    numberTwo = null;
+    currentOperation = '';
+    operateTrue = false;
+    doubleOperand = true;
+    equalIsTrue = false;
+    display.textContent = '';
+    result.textContent = '';
+}
+
 //----------------------------------------------------------------------
 // Events and onClick functions
 
 one.addEventListener('click', function(){
-    displayNumber += '1';
-    toDisplay(displayNumber);
-    doubleOperand = false;
-})
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '1';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
+});
 
 two.addEventListener('click', function(){
-    displayNumber += '2';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '2';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 three.addEventListener('click', function(){
-    displayNumber += '3';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '3';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 four.addEventListener('click', function(){
-    displayNumber += '4';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '4';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 five.addEventListener('click', function(){
-    displayNumber += '5';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '5';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 six.addEventListener('click', function(){
-    displayNumber += '6';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '6';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 seven.addEventListener('click', function(){
-    displayNumber += '7';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '7';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 eight.addEventListener('click', function(){
-    displayNumber += '8';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '8';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 nine.addEventListener('click', function(){
-    displayNumber += '9';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '9';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 zero.addEventListener('click', function(){
-    displayNumber += '0';
-    toDisplay(displayNumber);
-    doubleOperand = false;
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else {
+        displayNumber += '0';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
 })
 
 addition.addEventListener('click', function(){         
@@ -176,10 +242,12 @@ addition.addEventListener('click', function(){
             operateTrue = false;
         }
         currentOperation = '+';
+        result.textContent += '+';
         
         console.log('After: \n');
         test();
         doubleOperand = true;
+        equalIsTrue = false;
  }
 })
     
@@ -199,10 +267,12 @@ substraction.addEventListener('click', function(){
             operateTrue = false;
         }
         currentOperation = '-';
+        result.textContent += '-';
         
         console.log('After: \n');
         test();
         doubleOperand = true;
+        equalIsTrue = false;
  }
 })
 
@@ -221,10 +291,12 @@ multiplication.addEventListener('click', function(){
             operateTrue = false;
         }
         currentOperation = '*';
+        result.textContent += '*';
         
         console.log('After: \n');
         test();
         doubleOperand = true;
+        equalIsTrue = false;
  }
 })
 
@@ -243,10 +315,12 @@ division.addEventListener('click', function(){
             operateTrue = false;
         }
         currentOperation = '/';
+        result.textContent += '/';
         
         console.log('After: \n');
         test();
         doubleOperand = true;
+        equalIsTrue = false;
  }
 })
 
@@ -254,17 +328,28 @@ equals.addEventListener('click', function() {
     if (doubleOperand === true) {
         return console.log('Must Input Number');
     }
+    else if (equalIsTrue === true) {
+        return console.log('Must Input Sign');
+    }
     else {
         test();
         transformNumber();
         checkForOperation ();
         if (operateTrue === true) {
-            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberOne = Math.round(operate(currentOperation, numberOne, numberTwo) * 10000) / 10000;
             numberTwo = null;
             display.textContent = `${numberOne}`;
             operateTrue = false;
         }
         currentOperation = '';
-        doubleOperand = true;
+        equalIsTrue = true;
+        result.textContent = `${numberOne}`;
+        console.log('After Equal:');
+        test();
     }
-})
+});
+
+allClear.addEventListener('click', function() {
+    clearEverything();
+    test();
+});
