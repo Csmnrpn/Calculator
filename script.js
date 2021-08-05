@@ -83,13 +83,13 @@ function toDisplay(number) {
 
 function transformNumber() {
     if (numberOne === null) {
-        numberOne = parseInt(displayNumber);
+        numberOne = parseFloat(displayNumber);
         result.textContent += displayNumber;
         displayNumber = '';
         display.textContent = '';
         }
     else {
-        numberTwo = parseInt(displayNumber);
+        numberTwo = parseFloat(displayNumber);
         result.textContent += displayNumber;
         displayNumber = '';
         display.textContent = '';
@@ -112,6 +112,11 @@ function clearEverything () {
     equalIsTrue = false;
     display.textContent = '';
     result.textContent = '';
+}
+
+function divisionByZero () {
+    if (currentOperation === '/' && numberTwo === 0){
+    return true;}
 }
 
 //----------------------------------------------------------------------
@@ -220,6 +225,23 @@ zero.addEventListener('click', function(){
     if (equalIsTrue === true) {
         console.log('Number press. Must press operator');
     }
+    else if (currentOperation === '/' && display.textContent === '') {
+        console.log("Don't divide by zero, please");
+    }
+    else {
+        displayNumber += '0';
+        toDisplay(displayNumber);
+        doubleOperand = false;
+    }
+})
+
+zero.addEventListener('keypress', function(){
+    if (equalIsTrue === true) {
+        console.log('Number press. Must press operator');
+    }
+    else if (currentOperation === '/' && display.textContent === '') {
+        console.log("Don't divide by zero, please");
+    }
     else {
         displayNumber += '0';
         toDisplay(displayNumber);
@@ -234,6 +256,10 @@ addition.addEventListener('click', function(){
     else {
         test();
         transformNumber();
+        if (divisionByZero()) {
+            clearEverything();
+            return display.textContent = "You tried do divide by zero. Don't.";
+        }
         checkForOperation ();
         if (operateTrue === true) {
             numberOne = operate(currentOperation, numberOne, numberTwo);
@@ -259,6 +285,10 @@ substraction.addEventListener('click', function(){
     else {
         test();
         transformNumber();
+        if (divisionByZero()) {
+            clearEverything();
+            return display.textContent = "You tried do divide by zero. Don't.";
+        }
         checkForOperation ();
         if (operateTrue === true) {
             numberOne = operate(currentOperation, numberOne, numberTwo);
@@ -283,6 +313,10 @@ multiplication.addEventListener('click', function(){
     else {
         test();
         transformNumber();
+        if (divisionByZero()) {
+            clearEverything();
+            return display.textContent = "You tried do divide by zero. Don't.";
+        }
         checkForOperation ();
         if (operateTrue === true) {
             numberOne = operate(currentOperation, numberOne, numberTwo);
@@ -307,6 +341,10 @@ division.addEventListener('click', function(){
     else {
         test();
         transformNumber();
+        if (divisionByZero()) {
+            clearEverything();
+            return display.textContent = "You tried do divide by zero. Don't.";
+        }
         checkForOperation ();
         if (operateTrue === true) {
             numberOne = operate(currentOperation, numberOne, numberTwo);
@@ -334,6 +372,10 @@ equals.addEventListener('click', function() {
     else {
         test();
         transformNumber();
+        if (divisionByZero()) {
+            clearEverything();
+            return display.textContent = "You tried do divide by zero. Don't.";
+        }
         checkForOperation ();
         if (operateTrue === true) {
             numberOne = Math.round(operate(currentOperation, numberOne, numberTwo) * 10000) / 10000;
@@ -353,3 +395,4 @@ allClear.addEventListener('click', function() {
     clearEverything();
     test();
 });
+
