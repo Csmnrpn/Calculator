@@ -69,6 +69,7 @@ function operate(operator, first, second) {
 //----------------------------------------------------------------------
 // Helper Functions
 
+/*
 function test() {
     console.log(`Display Number: ${displayNumber} \n
     Number one: ${numberOne} \n
@@ -76,6 +77,7 @@ function test() {
     Current Operation: ${currentOperation} \n
     Operate if True: ${operateTrue}`);
 }
+*/
 
 function toDisplay(number) {
     display.textContent = number;
@@ -174,11 +176,11 @@ function addOperators() {
                 return console.log('Must Input Number');
             }
             else {
-                test();
+                
                 transformNumber();
                 if (divisionByZero()) {
                     clearEverything();
-                    return display.textContent = "You tried do divide by zero. Don't.";
+                    return display.textContent = "Zero Division Bad!";
                 }
                 checkForOperation ();
                 if (operateTrue === true) {
@@ -189,8 +191,6 @@ function addOperators() {
                 }
                 currentOperation = operator.textContent;
                 result.textContent += operator.textContent;                    
-                console.log('After: \n');
-                test();
                 doubleOperand = true;
                 equalIsTrue = false;
         }
@@ -207,11 +207,11 @@ equals.addEventListener('click', function() {
         return console.log('Must Input Sign');
     }
     else {
-        test();
+        
         transformNumber();
         if (divisionByZero()) {
             clearEverything();
-            return display.textContent = "You tried do divide by zero. Don't.";
+            return display.textContent = "Zero Division Bad";
         }
         checkForOperation ();
         if (operateTrue === true) {
@@ -222,18 +222,16 @@ equals.addEventListener('click', function() {
         }
         currentOperation = '';
         equalIsTrue = true;
-        result.textContent = `${numberOne}`;
-        console.log('After Equal:');
-        test();
+        result.textContent = `${numberOne}`;       
     }
 });
 
 allClear.addEventListener('click', function() {
     clearEverything();
-    test();
+    
 });
 
 clear.addEventListener('click', function(){ 
     clearLastInput();
-    test();
+    
 })
