@@ -1,8 +1,8 @@
-// make percent work
-// make bacspace work
-// make it pretty
-
-
+//----------------------------------------------------------------------
+// To Do
+// -make backspace work
+// -make it pretty
+// -refactor code 
 
 //----------------------------------------------------------------------
 // DOM Selection
@@ -26,6 +26,7 @@ const percent = document.querySelector('.percent');
 const equals = document.querySelector('.equals');
 const result = document.querySelector('.result');
 const dot = document.querySelector('.dot');
+const clear = document.querySelector('.clear');
 
 //----------------------------------------------------------------------
 // Variables
@@ -130,7 +131,17 @@ function clearEverything () {
 
 function divisionByZero () {
     if (currentOperation === '/' && numberTwo === 0){
-    return true;}
+        return true;
+    }
+}
+
+function clearLastInput () {
+    display.textContent = display.textContent.slice(0, -1);
+    displayNumber = displayNumber.slice(0, -1);
+    if (displayNumber === '') {
+        displayNumber += '0';
+        display.textContent = '0';
+    }
 }
 
 //----------------------------------------------------------------------
@@ -443,3 +454,7 @@ allClear.addEventListener('click', function() {
     test();
 });
 
+clear.addEventListener('click', function(){ 
+    clearLastInput();
+    test();
+})
