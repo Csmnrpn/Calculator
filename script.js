@@ -1,3 +1,9 @@
+// make percent work
+// make bacspace work
+// make it pretty
+
+
+
 //----------------------------------------------------------------------
 // DOM Selection
 const one = document.querySelector('.one');
@@ -19,6 +25,7 @@ const division = document.querySelector('.division');
 const percent = document.querySelector('.percent');
 const equals = document.querySelector('.equals');
 const result = document.querySelector('.result');
+const dot = document.querySelector('.dot');
 
 //----------------------------------------------------------------------
 // Variables
@@ -50,6 +57,10 @@ function divide(first, second) {
     return first / second;
 }
 
+function findPercentage(first, second) {
+    return first * (second / 100);
+}
+
 function operate(operator, first, second) {
     if (operator === '+'){
         return add(first, second);
@@ -62,6 +73,9 @@ function operate(operator, first, second) {
     }
     else if (operator === '/'){
         return divide(first, second);
+    }
+    else if (operator === '%'){
+        return findPercentage(first, second);
     }
     else return 'Operator is not recognized';
 }
@@ -235,15 +249,20 @@ zero.addEventListener('click', function(){
     }
 })
 
-zero.addEventListener('keypress', function(){
+dot.addEventListener('click', function(){    
     if (equalIsTrue === true) {
         console.log('Number press. Must press operator');
     }
-    else if (currentOperation === '/' && display.textContent === '') {
-        console.log("Don't divide by zero, please");
+    else if (display.textContent.indexOf('.') != -1) {
+        console.log('You can only have one dot, sorry!');
+    }
+    else if (display.textContent === '') {
+        displayNumber += '0.';
+        toDisplay(displayNumber);
+        doubleOperand = false;
     }
     else {
-        displayNumber += '0';
+        displayNumber += '.';
         toDisplay(displayNumber);
         doubleOperand = false;
     }
@@ -354,6 +373,34 @@ division.addEventListener('click', function(){
         }
         currentOperation = '/';
         result.textContent += '/';
+        
+        console.log('After: \n');
+        test();
+        doubleOperand = true;
+        equalIsTrue = false;
+ }
+})
+
+percent.addEventListener('click', function(){ 
+    if (doubleOperand === true) {
+        return console.log('Must Input Number');
+    }
+    else {
+        test();
+        transformNumber();
+        if (divisionByZero()) {
+            clearEverything();
+            return display.textContent = "You tried do divide by zero. Don't.";
+        }
+        checkForOperation ();
+        if (operateTrue === true) {
+            numberOne = operate(currentOperation, numberOne, numberTwo);
+            numberTwo = null;
+            display.textContent = `${numberOne}`;
+            operateTrue = false;
+        }
+        currentOperation = '%';
+        result.textContent += '%';
         
         console.log('After: \n');
         test();
